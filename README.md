@@ -1,6 +1,6 @@
 # 🎁 regalicos
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/License-All_Rights_Reserved-red.svg)](#)
 [![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/cvinas/regalicos-app)
 [![PWA](https://img.shields.io/badge/PWA-enabled-purple.svg)](https://github.com/cvinas/regalicos-app)
 
@@ -8,7 +8,7 @@
 
 **[🚀 Live Demo](https://cvinas.github.io/regalicos-app/)** | **[📱 Install as App](#installation)**
 
-![Gift4All Screenshot](preview.png)
+![regalicos Screenshot](preview.png)
 
 ---
 
@@ -162,11 +162,28 @@ const eventos = {
 
 ## 🤝 Contributing
 
-Contributions are welcome! Feel free to:
-- 🐛 Report bugs
-- 💡 Suggest new features
-- 🔧 Submit pull requests
+This is a private project. If you find bugs or have suggestions, feel free to:
+- 🐛 Report bugs via Issues
+- 💡 Suggest features
 - ⭐ Star the project if you like it!
+
+Note: Pull requests are not currently accepted without prior authorization.
+```
+
+### **4. NO subas archivo LICENSE**
+
+- Si GitHub te pide crear un LICENSE file, **sáltalo**
+- O crea un archivo `LICENSE` con esto:
+```
+Copyright (c) 2025 cvinas
+
+All Rights Reserved.
+
+This software and associated documentation files (the "Software") may not be 
+used, copied, modified, merged, published, distributed, sublicensed, and/or 
+sold without explicit written permission from the copyright holder.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
 
 ---
 
@@ -184,7 +201,9 @@ Contributions are welcome! Feel free to:
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+© 2025 cvinas. **All Rights Reserved.**
+
+This code is provided for viewing purposes only. No permission is granted to use, copy, modify, or distribute this software without explicit written permission from the author.
 
 ---
 
