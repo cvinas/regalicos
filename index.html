@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="Regalicos">
+    <meta name="description" content="The ultimate gift management app for Christmas, birthdays, and special occasions. Track gifts, manage budgets, and never forget a present again. Organize by person or event with smart shopping lists.">
+    <meta name="keywords" content="gift organizer, christmas gifts, birthday tracker, shopping list, gift ideas, present manager, budget tracker, gift planner">
+    <meta name="author" content="cvinas">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Gift4All - Smart Gift Organizer">
+    <meta property="og:description" content="Track gifts for Christmas, birthdays & special occasions. Manage ideas, budgets & never miss a present!">
+    <meta property="og:image" content="https://tu-usuario.github.io/regalicos-app/preview.png">
+    <meta property="og:url" content="https://tu-usuario.github.io/regalicos-app/">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gift4All - Smart Gift Organizer">
+    <meta name="twitter:description" content="Track gifts for Christmas, birthdays & special occasions. Manage ideas, budgets & never miss a present!">
+    <meta name="twitter:image" content="https://tu-usuario.github.io/regalicos-app/preview.png">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#0ea5e9">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Gift4All">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Application Info -->
+    <meta name="application-name" content="Gift4All">
+    <meta name="version" content="1.0.0">
+    <meta name="build-date" content="2025-11-14">
+    
+    <!-- Features -->
+    <!-- 
+    ✨ KEY FEATURES:
+    - 🎁 Organize gifts by person or event (Christmas, Birthdays, Kings Day, etc.)
+    - 💡 Track gift ideas with links to Amazon, AliExpress, Shein & more
+    - ✅ Mark gifts as purchased and assign to specific events
+    - 💰 Budget tracking with spent vs pending analytics
+    - 📊 Statistics by event and person
+    - 🛒 Shopping history with filters and sorting
+    - 📋 List view and expanded view modes
+    - 💾 Auto-save to browser localStorage
+    - 📱 Fully responsive mobile-first design
+    - 🎨 Modern glassmorphism UI with smooth animations
+    - 🚀 Progressive Web App (installable on mobile)
+    
+    👤 AUTHOR: cvinas
+    📅 CREATED: November 2025
+    🔖 VERSION: 1.0.0
+    📄 LICENSE: MIT
+    
+    🛠️ TECH STACK:
+    - Pure HTML5, CSS3, Vanilla JavaScript
+    - Tailwind CSS for styling
+    - LocalStorage API for data persistence
+    - No frameworks, no dependencies (except Tailwind CDN)
+    
+    💻 USAGE:
+    - Open in any modern browser (Chrome, Firefox, Safari, Edge)
+    - Install as PWA: Menu → Add to Home Screen
+    - Works 100% offline after first load
+    - All data stored locally (privacy-first)
+    
+    🔗 REPOSITORY: https://github.com/cvinas/regalicos
+    -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e'
+                        },
+                        accent: {
+                            400: '#fb7185',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c'
+                        }
+                    },
+                    animation: {
+                        'slide-up': 'slideUp 0.3s ease-out',
+                        'bounce-soft': 'bounceSoft 0.5s ease-out',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes bounceSoft {
+            0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+            40%, 43% { transform: translate3d(0, -8px, 0); }
+            70% { transform: translate3d(0, -4px, 0); }
+            90% { transform: translate3d(0, -2px, 0); }
+        }
+        
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .card-modern {
+            background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .fab {
+            position: fixed;
+            bottom: 5.5rem;
+            right: 1.5rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            background: linear-gradient(135deg, #f43f5e, #e11d48);
+            box-shadow: 0 8px 25px rgba(244, 63, 94, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            z-index: 50;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .fab:hover {
+            transform: translateY(-2px) scale(1.05);
+        }
+        
+        .tab-active {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.9), rgba(2, 132, 199, 0.9));
+            color: white;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+        
+        .btn-modern {
+            background: linear-gradient(135deg, #f43f5e, #e11d48);
+            box-shadow: 0 4px 14px rgba(244, 63, 94, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .input-modern {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .input-modern:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            outline: none;
+        }
+        
+        .idea-item {
+            background: linear-gradient(135deg, rgba(240, 249, 255, 0.8), rgba(224, 242, 254, 0.6));
+            border: 1px solid rgba(14, 165, 233, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .idea-item:hover {
+            background: linear-gradient(135deg, rgba(240, 249, 255, 1), rgba(224, 242, 254, 0.8));
+            border-color: rgba(14, 165, 233, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        .event-tag {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(2, 132, 199, 0.05));
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 28px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: 0.3s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: #0ea5e9;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-primary-50 via-white to-primary-100 text-gray-800 min-h-screen">
+    <div id="app" class="w-full max-w-md mx-auto min-h-screen relative overflow-hidden">
+        <!-- Header -->
+         <!-- Header simplificado -->
+        <header class="bg-gradient-to-r from-primary-500 via-primary-600 to-accent-500 p-4 sticky top-0 z-20 shadow-xl">
+            <h1 class="text-2xl font-bold text-white text-center flex items-center justify-center gap-2">
+                <span class="text-3xl">🎁</span>
+                <span>Gestor de Regalos</span>
+                <span class="text-3xl">✨</span>
+            </h1>
+        </header>
+        <!-- Barra de filtros para Personas (separada del header) -->
+        <div id="filters" class="bg-white/90 backdrop-blur-sm shadow-md border-b border-gray-200 p-3 space-y-3 sticky" style="top: 68px; z-index: 19;">
+            <div class="flex gap-3 items-center">
+                <select id="eventFilter" class="flex-1 bg-white px-3 py-2 rounded-xl text-sm font-medium border border-gray-300 shadow-sm">
+                    <option value="">🎭 Todos los eventos</option>
+                    <option value="navidad">🎄 Navidad</option>
+                    <option value="reyes">👑 Reyes</option>
+                    <option value="cumpleanos">🎂 Cumpleaños</option>
+                    <option value="santo">👼 Santo</option>
+                </select>
+            </div>
+            
+            <div class="flex gap-4 items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="pendingFilter">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="text-sm font-medium text-gray-700">⏳ Solo Pendientes</span>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="viewToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="text-sm font-medium text-gray-700">📋 Vista Lista</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Barra de filtros para Compras -->
+        <div id="filtersCompras" class="bg-white/90 backdrop-blur-sm shadow-md border-b border-gray-200 p-3 space-y-3 sticky hidden" style="top: 68px; z-index: 19;">
+            <div class="flex gap-3 items-center">
+                <select id="comprasEventFilter" class="flex-1 bg-white px-3 py-2 rounded-xl text-sm font-medium border border-gray-300 shadow-sm">
+                    <option value="">🎭 Todos los eventos</option>
+                    <option value="navidad">🎄 Navidad</option>
+                    <option value="reyes">👑 Reyes</option>
+                    <option value="cumpleanos">🎂 Cumpleaños</option>
+                    <option value="santo">👼 Santo</option>
+                    <option value="sin-asignar">🏷️ Sin asignar</option>
+                </select>
+                <select id="comprasSort" class="px-3 py-2 rounded-xl text-sm font-medium bg-white border border-gray-300 shadow-sm">
+                    <option value="precio-desc">💰 Precio ↓</option>
+                    <option value="precio-asc">💰 Precio ↑</option>
+                    <option value="alfabetico">🔤 A-Z</option>
+                    <option value="persona">👤 Persona</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <main class="pb-28 min-h-screen">
+            <!-- Tab: Personas -->
+            <div id="tabPersonas" class="p-4">
+                <div id="personasList" class="space-y-4"></div>
+            </div>
+
+            <!-- Tab: Compras -->
+            <div id="tabCompras" class="p-4 hidden">
+                <div id="comprasList" class="space-y-3"></div>
+            </div>
+
+            <!-- Tab: Stats -->
+            <div id="tabStats" class="p-4 hidden">
+                <div class="space-y-6 animate-slide-up">
+                    <div class="card-modern rounded-2xl p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-gradient-to-r from-primary-500 to-accent-500 rounded-xl flex items-center justify-center">
+                                <span class="text-white font-bold">💰</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800">Resumen General</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl">
+                                <span class="text-green-700 font-medium">💸 Total gastado:</span>
+                                <span class="text-xl font-bold text-green-800" id="totalSpent">0€</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl">
+                                <span class="text-orange-700 font-medium">⏳ Total pendiente:</span>
+                                <span class="text-xl font-bold text-orange-800" id="totalPending">0€</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-modern rounded-2xl p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                                <span class="text-white font-bold">🎯</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800">Por Eventos</h3>
+                        </div>
+                        <div id="statsByEvent" class="space-y-2"></div>
+                    </div>
+
+                    <div class="card-modern rounded-2xl p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-xl flex items-center justify-center">
+                                <span class="text-white font-bold">👥</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800">Por Personas</h3>
+                        </div>
+                        <div id="statsByPerson" class="space-y-2"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- FAB -->
+        <button class="fab animate-bounce-soft" id="addPersonBtn">+</button>
+
+        <!-- Bottom Tabs -->
+        <nav class="fixed bottom-0 left-0 right-0 glassmorphism border-t border-white/30 z-30">
+            <div class="flex max-w-md mx-auto">
+                <button class="flex-1 py-4 text-center tab-active rounded-t-2xl transition-all" id="tabPersonasBtn">
+                    <div class="text-sm font-bold">👥 Personas</div>
+                </button>
+                <button class="flex-1 py-4 text-center rounded-t-2xl transition-all hover:bg-white/50" id="tabComprasBtn">
+                    <div class="text-sm font-medium text-gray-600">🛒 Compras</div>
+                </button>
+                <button class="flex-1 py-4 text-center rounded-t-2xl transition-all hover:bg-white/50" id="tabStatsBtn">
+                    <div class="text-sm font-medium text-gray-600">📊 Stats</div>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Modal Añadir/Editar Persona -->
+    <div id="personModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="card-modern rounded-3xl w-full max-w-sm animate-slide-up">
+            <div class="p-6 border-b border-gray-200/50">
+                <h2 class="text-xl font-bold bg-gradient-to-r from-primary-600 to-accent-500 bg-clip-text text-transparent" id="modalTitle">✨ Añadir Persona</h2>
+            </div>
+            <div class="p-6">
+                <input type="text" id="personName" placeholder="Nombre (máx 10 chars)" maxlength="10" class="input-modern w-full px-4 py-3 rounded-xl mb-6 text-base">
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-bold text-gray-700 mb-3">🎯 Eventos:</label>
+                    <div class="space-y-3">
+                        <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-primary-50 transition-colors cursor-pointer">
+                            <input type="checkbox" id="eventNavidad" class="w-5 h-5 text-primary-500 rounded">
+                            <span class="font-medium">🎄 Navidad</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-primary-50 transition-colors cursor-pointer">
+                            <input type="checkbox" id="eventReyes" class="w-5 h-5 text-primary-500 rounded">
+                            <span class="font-medium">👑 Reyes</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-primary-50 transition-colors cursor-pointer">
+                            <input type="checkbox" id="eventCumpleanos" class="w-5 h-5 text-primary-500 rounded">
+                            <span class="font-medium">🎂 Cumpleaños</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 rounded-xl hover:bg-primary-50 transition-colors cursor-pointer">
+                            <input type="checkbox" id="eventSanto" class="w-5 h-5 text-primary-500 rounded">
+                            <span class="font-medium">👼 Santo</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 border-t border-gray-200/50 flex gap-3">
+                <button id="cancelPersonBtn" class="flex-1 px-6 py-3 border-2 border-gray-300 rounded-xl font-medium text-gray-700 hover:bg-gray-50 transition-all">Cancelar</button>
+                <button id="savePersonBtn" class="flex-1 px-6 py-3 btn-modern rounded-xl font-bold text-white">Guardar ✨</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Añadir/Editar Idea -->
+    <div id="ideaModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="card-modern rounded-3xl w-full max-w-sm animate-slide-up">
+            <div class="p-6 border-b border-gray-200/50">
+                <h2 class="text-xl font-bold bg-gradient-to-r from-primary-600 to-accent-500 bg-clip-text text-transparent" id="ideaModalTitle">💡 Añadir Idea</h2>
+            </div>
+            <div class="p-6 space-y-4">
+                <input type="text" id="ideaDescription" placeholder="Descripción (ej: Jersey azul)" class="input-modern w-full px-4 py-3 rounded-xl text-base">
+                <input type="url" id="ideaLink" placeholder="🔗 Link (opcional)" class="input-modern w-full px-4 py-3 rounded-xl text-base">
+                <input type="number" id="ideaPrice" placeholder="💰 Precio €" min="0" step="0.01" class="input-modern w-full px-4 py-3 rounded-xl text-base">
+            </div>
+            <div class="p-6 border-t border-gray-200/50 flex gap-3">
+                <button id="cancelIdeaBtn" class="flex-1 px-6 py-3 border-2 border-gray-300 rounded-xl font-medium text-gray-700 hover:bg-gray-50 transition-all">Cancelar</button>
+                <button id="saveIdeaBtn" class="flex-1 px-6 py-3 btn-modern rounded-xl font-bold text-white">Guardar 💡</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Estado global
+        let personas = [];
+        let currentPersonId = null;
+        let currentIdeaId = null;
+        let activeTab = 'personas';
+        let viewMode = 'expanded';
+        let expandedPersonas = new Set();
+
+        // Eventos disponibles
+        const eventos = {
+            navidad: { icon: '🎄', name: 'Navidad' },
+            reyes: { icon: '👑', name: 'Reyes' },
+            cumpleanos: { icon: '🎂', name: 'Cumpleaños' },
+            santo: { icon: '👼', name: 'Santo' }
+        };
+
+        // Función para generar color de avatar
+        function getAvatarColor(name) {
+            const colors = [
+                'bg-gradient-to-br from-red-400 to-pink-500',
+                'bg-gradient-to-br from-blue-400 to-indigo-500',
+                'bg-gradient-to-br from-green-400 to-emerald-500',
+                'bg-gradient-to-br from-purple-400 to-violet-500',
+                'bg-gradient-to-br from-yellow-400 to-orange-500',
+                'bg-gradient-to-br from-cyan-400 to-teal-500',
+                'bg-gradient-to-br from-rose-400 to-pink-500',
+                'bg-gradient-to-br from-indigo-400 to-purple-500'
+            ];
+            const index = name.charCodeAt(0) % colors.length;
+            return colors[index];
+        }
+
+        // Función para obtener icono de tienda
+        function getStoreIcon(url) {
+            if (!url) return '';
+            url = url.toLowerCase();
+            if (url.includes('amazon')) return '📦';
+            if (url.includes('shein')) return '👗';
+            if (url.includes('aliexpress')) return '🛒';
+            if (url.includes('temu')) return '🛍️';
+            return '🔗';
+        }
+
+        // Cargar datos
+        function loadData() {
+            const saved = localStorage.getItem('giftManagerPro');
+            if (saved) {
+                personas = JSON.parse(saved);
+            } else {
+                personas = [
+                    {
+                        id: Date.now(),
+                        name: 'MATERIAL',
+                        eventos: ['navidad', 'reyes'],
+                        ideas: [
+                            {
+                                id: generateId(),
+                                descripcion: 'Papel regalo navideño',
+                                link: '',
+                                precio: '15',
+                                comprado: false,
+                                evento: null
+                            },
+                            {
+                                id: generateId(),
+                                descripcion: 'Celo transparente x3',
+                                link: '',
+                                precio: '8',
+                                comprado: true,
+                                evento: 'navidad'
+                            },
+                            {
+                                id: generateId(),
+                                descripcion: 'Sobres dorados x10',
+                                link: '',
+                                precio: '12',
+                                comprado: false,
+                                evento: null
+                            }
+                        ]
+                    }
+                ];
+                saveData();
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('giftManagerPro', JSON.stringify(personas));
+        }
+
+        function generateId() {
+            return Date.now() + Math.random();
+        }
+
+        // Toggle vista
+        function toggleViewMode() {
+            // Leer el estado del checkbox: checked = lista colapsada, unchecked = expandida
+            const isListMode = document.getElementById('viewToggle').checked;
+            viewMode = isListMode ? 'collapsed' : 'expanded';
+            console.log(isListMode);
+            console.log(viewMode);
+            renderPersonas();
+        }
+        
+        function togglePersonExpansion(personId) {
+            if (viewMode !== 'collapsed') return;
+            
+            if (expandedPersonas.has(personId)) {
+                expandedPersonas.delete(personId);
+            } else {
+                expandedPersonas.add(personId);
+            }
+            renderPersonas();
+        }
+
+        // Renderizar personas
+        function renderPersonas() {
+            const container = document.getElementById('personasList');
+            const eventFilter = document.getElementById('eventFilter').value;
+            const pendingOnly = document.getElementById('pendingFilter').checked;
+
+            let filteredPersonas = personas.slice();
+
+            if (eventFilter) {
+                filteredPersonas = filteredPersonas.filter(p => p.eventos.includes(eventFilter));
+            }
+
+            if (pendingOnly) {
+                filteredPersonas = filteredPersonas.filter(p => 
+                    p.ideas.some(idea => !idea.comprado)
+                );
+            }
+
+            filteredPersonas.sort((a, b) => a.name.localeCompare(b.name));
+
+            if (viewMode === 'collapsed') {
+                container.innerHTML = filteredPersonas.map((persona, index) => {
+                    const isExpanded = expandedPersonas.has(persona.id);
+                    const pendientesCount = persona.ideas.filter(idea => !idea.comprado).length;
+                    const compradosCount = persona.ideas.filter(idea => idea.comprado).length;
+                    const totalGastado = persona.ideas
+                        .filter(idea => idea.comprado && idea.precio)
+                        .reduce((sum, idea) => sum + parseFloat(idea.precio), 0);
+                    const totalPendiente = persona.ideas
+                        .filter(idea => !idea.comprado && idea.precio)
+                        .reduce((sum, idea) => sum + parseFloat(idea.precio), 0);
+
+                    return `
+                        <div class="card-modern rounded-xl animate-slide-up" style="animation-delay: ${index * 50}ms">
+                            <div class="p-4 cursor-pointer" onclick="togglePersonExpansion(${persona.id})">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 ${getAvatarColor(persona.name)} rounded-lg flex items-center justify-center text-white font-bold shadow-md">
+                                            ${persona.name.charAt(0)}
+                                        </div>
+                                        <div>
+                                            <h3 class="font-bold text-gray-800">${persona.name}</h3>
+                                            <div class="text-xs text-gray-500">
+                                                ${pendientesCount > 0 ? `⏳${pendientesCount}` : ''} ${compradosCount > 0 ? `✅${compradosCount}` : ''}
+                                                <span class="ml-2 text-green-600">${totalGastado.toFixed(0)}€</span> 
+                                                <span class="text-orange-600">${totalPendiente.toFixed(0)}€</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <button onclick="event.stopPropagation(); deletePerson(${persona.id})" class="w-8 h-8 bg-red-100 hover:bg-red-200 rounded-lg flex items-center justify-center transition-all text-sm text-red-600">
+                                            🗑️
+                                        </button>
+                                        <button onclick="event.stopPropagation(); editPerson(${persona.id})" class="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center justify-center transition-all text-sm">
+                                            ⚙️
+                                        </button>
+                                        <span class="transform transition-transform text-gray-400 ${isExpanded ? 'rotate-180' : ''}">
+                                            ▼
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            ${isExpanded ? `
+                                <div class="px-4 pb-4 border-t border-gray-200 pt-3 animate-slide-up">
+                                    <div class="flex flex-wrap gap-2 mb-3">
+                                        ${persona.eventos.map(evento => 
+                                            `<span class="event-tag text-xs px-2 py-1 rounded-full font-medium">${eventos[evento].icon} ${eventos[evento].name}</span>`
+                                        ).join('')}
+                                    </div>
+                                    
+                                    <div class="space-y-2 mb-3">
+                                        ${persona.ideas.map(idea => renderIdeaCompact(persona.id, idea)).join('')}
+                                    </div>
+                                    
+                                    <button onclick="event.stopPropagation(); addIdea(${persona.id})" class="w-full text-sm font-bold text-accent-500 hover:text-accent-600 bg-accent-50 hover:bg-accent-100 py-2 rounded-lg transition-all">
+                                        + Añadir Idea
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                container.innerHTML = filteredPersonas.map((persona, index) => {
+                    const totalGastado = persona.ideas
+                        .filter(idea => idea.comprado && idea.precio)
+                        .reduce((sum, idea) => sum + parseFloat(idea.precio), 0);
+                    const totalPendiente = persona.ideas
+                        .filter(idea => !idea.comprado && idea.precio)
+                        .reduce((sum, idea) => sum + parseFloat(idea.precio), 0);
+
+                    return `
+                        <div class="card-modern rounded-2xl p-5 animate-slide-up" style="animation-delay: ${index * 100}ms">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 ${getAvatarColor(persona.name)} rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                                        ${persona.name.charAt(0)}
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-lg text-gray-800">${persona.name}</h3>
+                                        <p class="text-sm text-gray-500">${persona.ideas.length} ideas</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="deletePerson(${persona.id})" class="w-10 h-10 bg-red-100 hover:bg-red-200 rounded-xl flex items-center justify-center transition-all hover:scale-110 text-red-600">
+                                        🗑️
+                                    </button>
+                                    <button onclick="editPerson(${persona.id})" class="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-xl flex items-center justify-center transition-all hover:scale-110">
+                                        ⚙️
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-2 mb-5">
+                                ${persona.eventos.map(evento => 
+                                    `<span class="event-tag text-xs px-3 py-1.5 rounded-full font-medium">${eventos[evento].icon} ${eventos[evento].name}</span>`
+                                ).join('')}
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                        💡 Ideas Geniales <span class="bg-primary-100 text-primary-700 px-2 py-1 rounded-full text-xs">${persona.ideas.length}</span>
+                                    </span>
+                                    <button onclick="addIdea(${persona.id})" class="text-sm font-bold text-accent-500 hover:text-accent-600 bg-accent-50 hover:bg-accent-100 px-3 py-1.5 rounded-full transition-all hover:scale-105">
+                                        + Añadir
+                                    </button>
+                                </div>
+                                
+                                <div class="space-y-2">
+                                    ${persona.ideas.map(idea => renderIdeaFull(persona.id, idea)).join('')}
+                                </div>
+                            </div>
+
+                            <div class="text-center text-xs text-gray-500 py-1">
+                                <span class="text-green-600">${totalGastado.toFixed(2)}€ gastado</span>
+                                <span class="mx-1">•</span>
+                                <span class="text-orange-600">${totalPendiente.toFixed(2)}€ pendiente</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            if (filteredPersonas.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16">
+                        <div class="text-6xl mb-4">🎁</div>
+                        <h3 class="text-lg font-bold text-gray-600 mb-2">¡No hay personas aún!</h3>
+                        <p class="text-gray-500 mb-6">Comienza añadiendo tu primera persona</p>
+                        <button onclick="addPerson()" class="btn-modern px-6 py-3 rounded-xl text-white font-bold">
+                            ✨ Añadir Persona
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Renderizar idea compacta
+        function renderIdeaCompact(personId, idea) {
+            return `
+                <div class="idea-item flex items-center justify-between p-2 rounded-lg">
+                    <div class="flex items-center gap-2 flex-1">
+                        ${idea.link ? `<a href="${idea.link}" target="_blank" class="text-base hover:scale-110 transition-transform">${getStoreIcon(idea.link)}</a>` : '<span class="text-base">💭</span>'}
+                        <span class="font-medium text-gray-800">${idea.descripcion}</span>
+                    </div>
+                    <div class="flex items-center gap-1 text-xs">
+                        <span class="text-gray-500">${idea.precio ? idea.precio + '€' : '--€'}</span>
+                        <button onclick="event.stopPropagation(); toggleComprado(${personId}, ${idea.id})" class="text-sm ${idea.comprado ? 'text-green-500' : 'text-gray-400'} hover:scale-110 transition-all p-1">
+                            ${idea.comprado ? '✅' : '☐'}
+                        </button>
+                        ${idea.comprado ? `
+                            <select onchange="updateIdeaEvent(${personId}, ${idea.id}, this.value)" class="text-xs border border-primary-200 rounded px-1 bg-white">
+                                <option value="">🏷️</option>
+                                ${Object.entries(eventos).map(([key, evento]) => 
+                                    `<option value="${key}" ${idea.evento === key ? 'selected' : ''}>${evento.icon}</option>`
+                                ).join('')}
+                            </select>` : ''
+                        }
+                        <button onclick="event.stopPropagation(); editIdea(${personId}, ${idea.id})" class="text-blue-400 hover:text-blue-600 hover:scale-110 transition-all text-sm p-1">✏️</button>
+                        <button onclick="event.stopPropagation(); deleteIdea(${personId}, ${idea.id})" class="text-red-400 hover:text-red-600 hover:scale-110 transition-all text-sm p-1">🗑️</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Renderizar idea completa
+        function renderIdeaFull(personId, idea) {
+            return `
+                <div class="idea-item p-2 rounded-xl">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            ${idea.link ? `<a href="${idea.link}" target="_blank" class="text-lg hover:scale-110 transition-transform">${getStoreIcon(idea.link)}</a>` : '<span class="text-lg">💭</span>'}
+                            <span class="font-semibold text-gray-800">${idea.descripcion}</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-sm">
+                            <span class="text-gray-500">${idea.precio ? idea.precio + '€' : '--€'}</span>
+                            <button onclick="toggleComprado(${personId}, ${idea.id})" class="${idea.comprado ? 'text-green-500' : 'text-gray-400'} hover:scale-110 transition-all">
+                                ${idea.comprado ? '✅' : '☐'}
+                            </button>
+                            ${idea.comprado ? `
+                                <select onchange="updateIdeaEvent(${personId}, ${idea.id}, this.value)" class="text-xs border border-primary-200 rounded px-1 bg-white">
+                                    <option value="">🏷️</option>
+                                    ${Object.entries(eventos).map(([key, evento]) => 
+                                        `<option value="${key}" ${idea.evento === key ? 'selected' : ''}>${evento.icon}</option>`
+                                    ).join('')}
+                                </select>` : ''
+                            }
+                            <button onclick="editIdea(${personId}, ${idea.id})" class="text-blue-400 hover:text-blue-600 hover:scale-110 transition-all">✏️</button>
+                            <button onclick="deleteIdea(${personId}, ${idea.id})" class="text-red-400 hover:text-red-600 hover:scale-110 transition-all">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Renderizar compras CON FILTROS
+        function renderCompras() {
+            const container = document.getElementById('comprasList');
+            const eventFilter = document.getElementById('comprasEventFilter').value;
+            const sortBy = document.getElementById('comprasSort').value;
+            
+            let todasCompras = [];
+            personas.forEach(persona => {
+                persona.ideas
+                    .filter(idea => idea.comprado)
+                    .forEach(idea => {
+                        todasCompras.push({
+                            ...idea,
+                            personaNombre: persona.name,
+                            personaColor: getAvatarColor(persona.name)
+                        });
+                    });
+            });
+
+            // Filtrar por evento
+            if (eventFilter) {
+                if (eventFilter === 'sin-asignar') {
+                    todasCompras = todasCompras.filter(compra => !compra.evento);
+                } else {
+                    todasCompras = todasCompras.filter(compra => compra.evento === eventFilter);
+                }
+            }
+
+            // Ordenar
+            switch (sortBy) {
+                case 'precio-desc':
+                    todasCompras.sort((a, b) => parseFloat(b.precio || 0) - parseFloat(a.precio || 0));
+                    break;
+                case 'precio-asc':
+                    todasCompras.sort((a, b) => parseFloat(a.precio || 0) - parseFloat(b.precio || 0));
+                    break;
+                case 'alfabetico':
+                    todasCompras.sort((a, b) => a.descripcion.localeCompare(b.descripcion));
+                    break;
+                case 'persona':
+                    todasCompras.sort((a, b) => a.personaNombre.localeCompare(b.personaNombre));
+                    break;
+            }
+
+            if (todasCompras.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16">
+                        <div class="text-6xl mb-4">🛒</div>
+                        <h3 class="text-lg font-bold text-gray-600 mb-2">
+                            ${eventFilter ? '¡No hay compras para este filtro!' : '¡No hay compras aún!'}
+                        </h3>
+                        <p class="text-gray-500">
+                            ${eventFilter ? 'Prueba con otro evento' : 'Marca algunas ideas como compradas'}
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            const totalGastado = todasCompras.reduce((sum, compra) => sum + parseFloat(compra.precio || 0), 0);
+
+            container.innerHTML = `
+                <div class="card-modern rounded-2xl p-4 mb-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-green-600 mb-1">${totalGastado.toFixed(2)}€</div>
+                        <div class="text-sm text-gray-500">
+                            ${todasCompras.length} compra${todasCompras.length !== 1 ? 's' : ''} 
+                            ${eventFilter ? (eventFilter === 'sin-asignar' ? 'sin asignar' : `en ${eventos[eventFilter]?.name}`) : 'total'}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    ${todasCompras.map((compra, index) => `
+                        <div class="card-modern rounded-xl p-3 animate-slide-up" style="animation-delay: ${index * 50}ms">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3 flex-1">
+                                    ${compra.link ? `<a href="${compra.link}" target="_blank" class="text-xl hover:scale-110 transition-transform">${getStoreIcon(compra.link)}</a>` : '<span class="text-xl">💭</span>'}
+                                    <div class="flex-1">
+                                        <div class="font-semibold text-gray-800 text-lg">${compra.descripcion}</div>
+                                        <div class="text-xs text-gray-500 mt-1">
+                                            <span class="inline-flex items-center gap-1">
+                                                <div class="w-3 h-3 ${compra.personaColor} rounded-full"></div>
+                                                ${compra.personaNombre}
+                                            </span>
+                                            ${compra.evento ? ` • ${eventos[compra.evento].icon} ${eventos[compra.evento].name}` : ' • Sin asignar'}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold text-green-600 text-lg">${compra.precio ? compra.precio + '€' : '--€'}</div>
+                                    <div class="text-xs text-green-500">✅</div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Renderizar stats
+        function renderStats() {
+            let totalGastado = 0;
+            let totalPendiente = 0;
+            const statsByEvent = {};
+            const statsByPerson = {};
+
+            personas.forEach(persona => {
+                const gastadoPersona = persona.ideas
+                    .filter(idea => idea.comprado && idea.precio)
+                    .reduce((sum, idea) => sum + parseFloat(idea.precio), 0);
+                
+                const pendientePersona = persona.ideas
+                    .filter(idea => !idea.comprado && idea.precio)
+                    .reduce((sum, idea) => sum + parseFloat(idea.precio), 0);
+
+                totalGastado += gastadoPersona;
+                totalPendiente += pendientePersona;
+
+                if (gastadoPersona > 0 || pendientePersona > 0) {
+                    statsByPerson[persona.name] = { gastado: gastadoPersona, pendiente: pendientePersona };
+                }
+
+                persona.ideas.forEach(idea => {
+                    if (idea.comprado && idea.evento && idea.precio) {
+                        if (!statsByEvent[idea.evento]) {
+                            statsByEvent[idea.evento] = 0;
+                        }
+                        statsByEvent[idea.evento] += parseFloat(idea.precio);
+                    }
+                });
+            });
+
+            document.getElementById('totalSpent').textContent = `${totalGastado.toFixed(2)}€`;
+            document.getElementById('totalPending').textContent = `${totalPendiente.toFixed(2)}€`;
+
+            const eventStatsHTML = Object.entries(statsByEvent)
+                .map(([evento, amount]) => `
+                    <div class="flex justify-between items-center p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
+                        <span class="font-medium text-purple-700">${eventos[evento].icon} ${eventos[evento].name}</span>
+                        <span class="font-bold text-purple-800 text-lg">${amount.toFixed(2)}€</span>
+                    </div>
+                `).join('');
+            document.getElementById('statsByEvent').innerHTML = eventStatsHTML || '<div class="text-gray-400 text-center py-4">📊 No hay datos</div>';
+
+            const personStatsHTML = Object.entries(statsByPerson)
+                .map(([name, stats]) => `
+                    <div class="flex justify-between items-center p-3 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl">
+                        <span class="font-medium text-indigo-700">${name}</span>
+                        <div class="text-sm text-right">
+                            <div class="text-green-600 font-bold">${stats.gastado.toFixed(2)}€</div>
+                            <div class="text-orange-600">${stats.pendiente.toFixed(2)}€ pendiente</div>
+                        </div>
+                    </div>
+                `).join('');
+            document.getElementById('statsByPerson').innerHTML = personStatsHTML || '<div class="text-gray-400 text-center py-4">👥 No hay datos</div>';
+        }
+
+        // Cambiar tabs
+        function showTab(tab) {
+            activeTab = tab;
+            
+            document.getElementById('tabPersonas').classList.toggle('hidden', tab !== 'personas');
+            document.getElementById('tabCompras').classList.toggle('hidden', tab !== 'compras');
+            document.getElementById('tabStats').classList.toggle('hidden', tab !== 'stats');
+            document.getElementById('filters').classList.toggle('hidden', tab !== 'personas');
+            document.getElementById('filtersCompras').classList.toggle('hidden', tab !== 'compras');
+            
+            const personasBtn = document.getElementById('tabPersonasBtn');
+            const comprasBtn = document.getElementById('tabComprasBtn');
+            const statsBtn = document.getElementById('tabStatsBtn');
+            
+            personasBtn.className = 'flex-1 py-4 text-center rounded-t-2xl transition-all hover:bg-white/50';
+            comprasBtn.className = 'flex-1 py-4 text-center rounded-t-2xl transition-all hover:bg-white/50';
+            statsBtn.className = 'flex-1 py-4 text-center rounded-t-2xl transition-all hover:bg-white/50';
+            
+            personasBtn.innerHTML = '<div class="text-sm font-medium text-gray-600">👥 Personas</div>';
+            comprasBtn.innerHTML = '<div class="text-sm font-medium text-gray-600">🛒 Compras</div>';
+            statsBtn.innerHTML = '<div class="text-sm font-medium text-gray-600">📊 Stats</div>';
+            
+            if (tab === 'personas') {
+                personasBtn.className = 'flex-1 py-4 text-center tab-active rounded-t-2xl transition-all';
+                personasBtn.innerHTML = '<div class="text-sm font-bold">👥 Personas</div>';
+                renderPersonas();
+            } else if (tab === 'compras') {
+                comprasBtn.className = 'flex-1 py-4 text-center tab-active rounded-t-2xl transition-all';
+                comprasBtn.innerHTML = '<div class="text-sm font-bold">🛒 Compras</div>';
+                renderCompras();
+            } else {
+                statsBtn.className = 'flex-1 py-4 text-center tab-active rounded-t-2xl transition-all';
+                statsBtn.innerHTML = '<div class="text-sm font-bold">📊 Stats</div>';
+                renderStats();
+            }
+        }
+
+        function addPerson() {
+            currentPersonId = null;
+            document.getElementById('modalTitle').innerHTML = '✨ Añadir Persona';
+            document.getElementById('personName').value = '';
+            Object.keys(eventos).forEach(evento => {
+                document.getElementById(`event${evento.charAt(0).toUpperCase() + evento.slice(1)}`).checked = false;
+            });
+            document.getElementById('personModal').classList.remove('hidden');
+        }
+
+        function editPerson(id) {
+            const persona = personas.find(p => p.id === id);
+            if (!persona) return;
+            
+            currentPersonId = id;
+            document.getElementById('modalTitle').innerHTML = '✏️ Editar Persona';
+            document.getElementById('personName').value = persona.name;
+            Object.keys(eventos).forEach(evento => {
+                const checkbox = document.getElementById(`event${evento.charAt(0).toUpperCase() + evento.slice(1)}`);
+                checkbox.checked = persona.eventos.includes(evento);
+            });
+            document.getElementById('personModal').classList.remove('hidden');
+        }
+
+        function deletePerson(id) {
+            const persona = personas.find(p => p.id === id);
+            if (!persona) return;
+            
+            if (!confirm(`🗑️ ¿Eliminar "${persona.name}" y todas sus ideas?`)) return;
+            
+            personas = personas.filter(p => p.id !== id);
+            expandedPersonas.delete(id);
+            saveData();
+            renderPersonas();
+        }
+
+        function savePerson() {
+            const name = document.getElementById('personName').value.trim();
+            if (!name) return;
+
+            const selectedEventos = Object.keys(eventos).filter(evento => 
+                document.getElementById(`event${evento.charAt(0).toUpperCase() + evento.slice(1)}`).checked
+            );
+
+            if (currentPersonId) {
+                const persona = personas.find(p => p.id === currentPersonId);
+                persona.name = name;
+                persona.eventos = selectedEventos;
+            } else {
+                personas.push({
+                    id: generateId(),
+                    name: name,
+                    eventos: selectedEventos,
+                    ideas: []
+                });
+            }
+
+            saveData();
+            document.getElementById('personModal').classList.add('hidden');
+            renderPersonas();
+        }
+
+        function editIdea(personId, ideaId) {
+            const persona = personas.find(p => p.id === personId);
+            if (!persona) return;
+            
+            const idea = persona.ideas.find(i => i.id === ideaId);
+            if (!idea) return;
+            
+            currentPersonId = personId;
+            currentIdeaId = ideaId;
+            document.getElementById('ideaModalTitle').innerHTML = '✏️ Editar Idea';
+            document.getElementById('ideaDescription').value = idea.descripcion;
+            document.getElementById('ideaLink').value = idea.link || '';
+            document.getElementById('ideaPrice').value = idea.precio || '';
+            document.getElementById('ideaModal').classList.remove('hidden');
+        }
+
+        function addIdea(personId) {
+            currentPersonId = personId;
+            currentIdeaId = null;
+            document.getElementById('ideaModalTitle').innerHTML = '💡 Añadir Idea';
+            document.getElementById('ideaDescription').value = '';
+            document.getElementById('ideaLink').value = '';
+            document.getElementById('ideaPrice').value = '';
+            document.getElementById('ideaModal').classList.remove('hidden');
+        }
+
+        function saveIdea() {
+            const descripcion = document.getElementById('ideaDescription').value.trim();
+            if (!descripcion) return;
+
+            const persona = personas.find(p => p.id === currentPersonId);
+            if (!persona) return;
+
+            if (currentIdeaId) {
+                const idea = persona.ideas.find(i => i.id === currentIdeaId);
+                if (idea) {
+                    idea.descripcion = descripcion;
+                    idea.link = document.getElementById('ideaLink').value.trim();
+                    idea.precio = document.getElementById('ideaPrice').value;
+                }
+            } else {
+                persona.ideas.push({
+                    id: generateId(),
+                    descripcion: descripcion,
+                    link: document.getElementById('ideaLink').value.trim(),
+                    precio: document.getElementById('ideaPrice').value,
+                    comprado: false,
+                    evento: null
+                });
+            }
+
+            saveData();
+            document.getElementById('ideaModal').classList.add('hidden');
+            renderPersonas();
+            if (activeTab === 'compras') renderCompras();
+        }
+
+        function toggleComprado(personId, ideaId) {
+            const persona = personas.find(p => p.id === personId);
+            if (!persona) return;
+            
+            const idea = persona.ideas.find(i => i.id === ideaId);
+            if (!idea) return;
+            
+            idea.comprado = !idea.comprado;
+            if (!idea.comprado) idea.evento = null;
+            
+            saveData();
+            renderPersonas();
+            if (activeTab === 'compras') renderCompras();
+        }
+
+        function updateIdeaEvent(personId, ideaId, evento) {
+            const persona = personas.find(p => p.id === personId);
+            if (!persona) return;
+            
+            const idea = persona.ideas.find(i => i.id === ideaId);
+            if (!idea) return;
+            
+            idea.evento = evento || null;
+            saveData();
+            renderPersonas();
+            if (activeTab === 'compras') renderCompras();
+        }
+
+        function deleteIdea(personId, ideaId) {
+            if (!confirm('🗑️ ¿Eliminar esta idea?')) return;
+            
+            const persona = personas.find(p => p.id === personId);
+            if (!persona) return;
+            
+            persona.ideas = persona.ideas.filter(i => i.id !== ideaId);
+            saveData();
+            renderPersonas();
+            if (activeTab === 'compras') renderCompras();
+        }
+
+        // Event listeners
+        document.getElementById('addPersonBtn').addEventListener('click', addPerson);
+        document.getElementById('tabPersonasBtn').addEventListener('click', () => showTab('personas'));
+        document.getElementById('tabComprasBtn').addEventListener('click', () => showTab('compras'));
+        document.getElementById('tabStatsBtn').addEventListener('click', () => showTab('stats'));
+        
+        document.getElementById('cancelPersonBtn').addEventListener('click', () => {
+            document.getElementById('personModal').classList.add('hidden');
+        });
+        document.getElementById('savePersonBtn').addEventListener('click', savePerson);
+        
+        document.getElementById('cancelIdeaBtn').addEventListener('click', () => {
+            document.getElementById('ideaModal').classList.add('hidden');
+        });
+        document.getElementById('saveIdeaBtn').addEventListener('click', saveIdea);
+
+        document.getElementById('eventFilter').addEventListener('change', renderPersonas);
+        document.getElementById('comprasEventFilter').addEventListener('change', renderCompras);
+        document.getElementById('comprasSort').addEventListener('change', renderCompras);
+        
+        // Toggle switches
+        document.getElementById('pendingFilter').addEventListener('change', renderPersonas);
+        document.getElementById('viewToggle').addEventListener('change', toggleViewMode);
+
+        // Inicialización
+        loadData();
+        showTab('personas');
+    </script>
+</body>
+</html>
